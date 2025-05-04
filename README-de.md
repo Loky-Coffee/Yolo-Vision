@@ -4,8 +4,6 @@
 
 Vision-Validator ist eine leistungsstarke Web-Anwendung zum Testen, Vergleichen und Anwenden von YOLO-Modellen für Objekterkennung und Instanzsegmentierung. Mit einer benutzerfreundlichen Oberfläche können Sie verschiedene Modelle laden, Bilder analysieren und Live-Videostreams verarbeiten.
 
-![Yolo Vision Interface](https://placeholder.image)
-
 ## ✨ Features
 
 - 🎯 **Multi-Model Support**: Unterstützt YOLO .pt, .onnx und .engine Modelle
