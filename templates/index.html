@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔍 Vision-Validator</title>
+  <link rel="stylesheet" href="/static/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>🔍 Vision-Validator</h1>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span>
+      </button>
+    </header>
+    
+    <main>
+      <div class="dual-panel">
+        <!-- Linke Seite: Modellverwaltung -->
+        <div class="model-panel">
+          <div class="model-selection">
+            <h2>Verfügbare Modelle</h2>
+            <div class="model-upload">
+              <input type="file" id="modelFileInput" accept=".pt,.onnx,.engine" style="display: none;">
+              <button class="upload-button" onclick="document.getElementById('modelFileInput').click()">
+                📁 Modell hochladen
+              </button>
+            </div>
+            {% if models %}
+              <div class="model-list">
+                {% for model in models %}
+                  <div class="model-item" data-index="{{ loop.index0 }}">
+                    <span class="model-number">{{ loop.index }}</span>
+                    <span class="model-name">{{ model }}</span>
+                    <div class="model-actions">
+                      <button class="select-button" onclick="loadModel({{ loop.index0 }})">Laden</button>
+                      <button class="rename-button" onclick="renameModel({{ loop.index0 }}, this.parentElement.parentElement.querySelector('.model-name'))">✏️</button>
+                      <button class="delete-button" onclick="deleteModel({{ loop.index0 }})">🗑️</button>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="no-models">Keine Modelle im 'models' Ordner gefunden!</p>
+            {% endif %}
+          </div>
+          
+          <div class="help-text">
+            <h2>Wie funktioniert der Modelltester?</h2>
+            <ul>
+              <li>Wähle ein bestehendes Modell oder lade eines hoch</li>
+              <li>Teste das Modell mit der Kamera oder durch Bildupload</li>
+              <li>Erkennungsergebnisse werden automatisch gespeichert</li>
+              <li>Finde alle Ergebnisse im "results" Ordner</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Rechte Seite: Test-Bereich -->
+        <div class="test-panel">
+          <div class="test-container">
+            <!-- Kamera links -->
+            <div class="camera-container">
+              <h3>📷 Kamera-Test</h3>
+              <div id="cameraSection" style="display:block;">
+                <div class="camera-frame">
+                    <img id="videoFeed" src="" class="video-feed" alt="Kamera-Feed" style="display: none;">
+                    <div id="cameraPlaceholder" class="camera-placeholder">
+                        <span class="camera-icon">📷</span>
+                        <span class="camera-text">Modell wird geladen...</span>
+                    </div>
+                </div>
+                <button id="resetButton" class="reset-button">🔄 Cooldown zurücksetzen</button>
+              </div>
+              <p id="cameraStatus" class="status-text">Bitte zuerst ein Modell laden</p>
+              
+              <!-- Settings eingebettet -->
+              <div class="integrated-settings">
+                <h3>Detection Settings</h3>
+                
+                <div class="setting-item">
+                  <label>Confidence Threshold:</label>
+                  <div class="slider-container">
+                    <input type="range" id="confThreshold" min="0" max="1" step="0.05" value="{{ settings.conf_threshold }}">
+                    <span class="slider-value">{{ settings.conf_threshold }}</span>
+                  </div>
+                </div>
+                
+                <div class="setting-item">
+                  <label>Mask Transparency:</label>
+                  <div class="slider-container">
+                    <input type="range" id="maskAlpha" min="0" max="1" step="0.05" value="{{ settings.mask_alpha }}">
+                    <span class="slider-value">{{ settings.mask_alpha }}</span>
+                  </div>
+                </div>
+                
+                <div class="setting-item">
+                  <label>Mask Color:</label>
+                  <input type="color" id="maskColor" value="{{ settings.mask_color }}">
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload rechts -->
+            <div class="upload-container">
+              <h3>📁 Bild-Upload</h3>
+              
+              <div class="upload-frame" id="uploadFrame">
+                <img id="resultImage" src="" alt="Erkennungsergebnis" style="display: none;">
+                <div id="uploadPlaceholder" class="upload-placeholder">
+                  <span class="upload-icon">🖼️</span>
+                  <span class="upload-text">Erkennungsergebnis wird hier angezeigt</span>
+                </div>
+              </div>
+              
+              <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;">
+                <div class="upload-actions">
+                  <button type="button" class="browse-button" onclick="document.getElementById('imageInput').click()">
+                    Bild auswählen
+                  </button>
+                  <button type="submit" class="test-button">Testen</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>YOLO Modelltester 🚀</p>
+    </footer>
+  </div>
+  
+  <script src="/static/main.js"></script>
+</body>
+</html>
