@@ -528,6 +528,37 @@ def delete_model(model_index):
             "message": f"Error deleting: {str(e)}"
         })
 
+@app.route('/upload_model', methods=['POST'])
+def upload_model():
+    """Upload a new model to the server"""
+    if 'model' not in request.files:
+        return jsonify({"status": "error", "message": "Keine Datei ausgewählt!"})
+    
+    file = request.files['model']
+    if file.filename == '':
+        return jsonify({"status": "error", "message": "Keine Datei ausgewählt!"})
+    
+    if file:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(MODELS_FOLDER, filename)
+        
+        # Check if file already exists
+        if os.path.exists(filepath):
+            return jsonify({"status": "error", "message": f"Modell '{filename}' existiert bereits!"})
+        
+        # Check file extension
+        allowed_extensions = {'.pt', '.onnx', '.engine'}
+        ext = os.path.splitext(filename)[1].lower()
+        
+        if ext not in allowed_extensions:
+            return jsonify({"status": "error", "message": f"Ungültige Dateityp! Erlaubt sind: {', '.join(allowed_extensions)}"})
+        
+        try:
+            file.save(filepath)
+            return jsonify({"status": "success", "message": f"Modell '{filename}' wurde erfolgreich hochgeladen!"})
+        except Exception as e:
+            return jsonify({"status": "error", "message": f"Fehler beim Speichern: {str(e)}"})
+
 @app.route('/rename_model', methods=['POST'])
 def rename_model():
     """Rename model"""
