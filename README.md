@@ -196,7 +196,9 @@ Contributions are welcome! Please create a fork and open a pull request.
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+see LICENSE file for details.
 
 ## 🙏 Acknowledgments
 

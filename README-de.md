@@ -196,7 +196,9 @@ Beiträge sind willkommen! Bitte erstellen Sie einen Fork und öffnen Sie eine P
 
 ## 📄 Lizenz
 
-MIT License - siehe LICENSE Datei für Details.
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+siehe LICENSE Datei für Details.
 
 ## 🙏 Danksagungen
 
