@@ -183,9 +183,10 @@ python app.py 2>&1 | tee app.log
 ## 📚 Technologies Used
 
 - **Backend**: Flask, OpenCV, PyTorch, Ultralytics
-- **Frontend**: HTML, JavaScript, Bootstrap
+- **Frontend**: HTML, CSS, JavaScript
 - **Computer Vision**: YOLO, OpenCV
 - **Threading**: Python threading, concurrent.futures
+- **Fonts**: Google Fonts (Poppins)
 
 ## 🤝 Contributing
 
